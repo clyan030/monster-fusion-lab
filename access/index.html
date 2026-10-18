@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5ff">
+  <title>幻獸融合研究所 · Monster Fusion Lab</title>
+  <style>
+    :root {
+      --bg:#f8f6ff; --ink:#323050; --muted:#88849e; --purple:#8270db; --purple-2:#aea0eb;
+      --lavender:#eee9ff; --stroke:#eae6f4; --shadow:0 15px 42px rgba(81,68,143,.065);
+      --blue:#dff1ff; --mint:#e3f9f0; --pink:#fff0f3;
+    }
+    * {box-sizing:border-box}
+    html {scroll-behavior:smooth}
+    body {margin:0; min-width:1090px; font-family:"Trebuchet MS","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif; color:var(--ink); background: radial-gradient(ellipse at 8% 2%,#ede8ff 0,transparent 34%),radial-gradient(ellipse at 88% 7%,#e8f6ff 0,transparent 26%),var(--bg);}
+    button {font:inherit;cursor:pointer} button:focus-visible{outline:3px solid #b5a7fb;outline-offset:3px}
+    .app{max-width:1550px;margin:0 auto;padding:28px 44px 44px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px;gap:26px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;flex-shrink:0}
+    .brand-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(140deg,#a89aef,#7867d1);box-shadow:0 8px 20px #9283d350;font-size:24px;color:white;transform:rotate(-5deg)}
+    .brand strong{font-size:18px;letter-spacing:.6px;display:block;white-space:nowrap}.brand small{font-size:10px;color:#a29db7;letter-spacing:1.4px;font-weight:800;display:block;margin-top:5px}
+    .nav{display:flex;gap:5px;background:#eeeaf8;padding:6px;border:1px solid #e8e3f5;border-radius:18px;box-shadow:inset 0 1px 3px #ddd6eb40}
+    .nav-btn{border:0;background:transparent;color:#8e86a8;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 24px;border-radius:13px;font-size:14px;font-weight:800;min-width:135px;transition:.2s}
+    .nav-btn:hover{color:var(--purple)}.nav-btn.active{background:#fff;box-shadow:0 3px 12px #8077ae16;color:#6f5ac5}
+    .nav-btn svg,.top-stat svg{width:17px;height:17px}
+    .profile{display:flex;align-items:center;gap:10px;flex-shrink:0}.avatar{height:43px;width:43px;border-radius:50%;display:grid;place-items:center;background:#fff5d9;border:3px solid white;box-shadow:0 4px 15px #9089ad23;font-size:21px}
+    .profile .hi{font-weight:900;font-size:13px}.profile small{display:block;margin-top:3px;font-size:11px;color:var(--muted)}
+    .eyebrow{font-size:11px;letter-spacing:2.1px;text-transform:uppercase;color:#a29ab9;font-weight:900}
+    .heading{display:flex;align-items:flex-end;justify-content:space-between;gap:25px;margin-bottom:22px}
+    .heading h1{margin:9px 0 9px;font-size:32px;font-weight:900;letter-spacing:.4px}.heading h1 em{font-style:normal;color:var(--purple)}
+    .heading p{color:var(--muted);font-size:13px;margin:0;line-height:1.7}
+    .heading-right{display:flex;gap:12px;align-items:center}
+    .tiny-pill{display:flex;align-items:center;gap:8px;background:white;border:1px solid var(--stroke);border-radius:100px;padding:12px 15px;font-size:12px;color:#7a7490;font-weight:800;white-space:nowrap}
+    .tiny-pill b{color:#715ecc;font-size:14px}.tiny-pill .star{font-size:16px;color:#e4b664}
+    .board{display:grid;grid-template-columns:280px minmax(380px,1fr) 315px;gap:18px;align-items:stretch}
+    .panel{background:#fff;border:1px solid #efebf7;box-shadow:var(--shadow);border-radius:27px;overflow:hidden}
+    .panel-pad{padding:22px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}.panel h2,.detail h2{font-size:16px;margin:0;font-weight:900;letter-spacing:.2px}
+    .mini-badge{font-size:10px;font-weight:900;color:#9b8dda;background:#f2efff;border-radius:9px;padding:6px 9px;white-space:nowrap}
+    .subtext{color:#aaa4b6;font-size:11px;margin:7px 0 18px;line-height:1.7}
+    .source-list{display:flex;flex-direction:column;gap:9px}
+    .source-btn{border:1.5px solid #eeeaf4;background:#fff;border-radius:16px;width:100%;padding:9px 10px;display:flex;align-items:center;gap:11px;text-align:left;position:relative;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s}
+    .source-btn:hover{transform:translateY(-2px);border-color:#cbbff5;box-shadow:0 6px 14px #927bdd12}
+    .source-btn.selected{background:#f7f4ff;border-color:#b9aaf6;box-shadow:0 0 0 3px #b8a6f116}
+    .source-art{width:57px;height:57px;border-radius:13px;background:var(--c);display:grid;place-items:center;overflow:hidden;flex-shrink:0}.source-art svg{width:62px;height:57px}
+    .source-meta{min-width:0}.source-meta strong{font-size:12px;display:block;white-space:nowrap}.source-meta small{font-size:10px;color:#9b96aa;display:block;margin-top:5px}
+    .source-check{position:absolute;right:12px;top:16px;width:18px;height:18px;border-radius:50%;border:1.5px solid #e6e0f0;display:grid;place-items:center;color:transparent;font-size:11px;background:white}
+    .selected .source-check{background:#9c8be6;color:white;border-color:#9c8be6}
+    .select-help{margin-top:21px;background:#fcfaff;border:1px dashed #dcd4f1;border-radius:16px;padding:13px 15px}
+    .select-help .help-title{font-weight:900;font-size:11px;color:#8674c6;display:flex;align-items:center;gap:6px}.select-help p{font-size:10.5px;line-height:1.8;color:#a69fb3;margin:7px 0 0}
+    .lab{position:relative;background:linear-gradient(180deg,#fcfbff 0%,#f8f4ff 52%,#f3edff 100%);display:flex;flex-direction:column;isolation:isolate;min-height:625px}
+    .lab:before{content:"";position:absolute;inset:0;z-index:-1;background-image:radial-gradient(#b9a9f788 1px,transparent 1px);background-size:31px 31px;opacity:.24;mask-image:linear-gradient(to bottom,black,transparent 80%)}
+    .lab-inner{flex:1;padding:22px 23px 20px;display:flex;flex-direction:column;align-items:center}
+    .lab-heading{text-align:center}.lab-heading .mini-badge{background:white;border:1px solid #eee6fc}.lab-heading h2{font-size:20px;margin:10px 0 5px;font-weight:900}.lab-heading p{font-size:11px;color:#aaa0b9;margin:0}
+    .fusion-station{width:100%;height:314px;position:relative;display:flex;align-items:center;justify-content:center}
+    .magic-circle{height:238px;width:238px;border:2px dashed #d4c8f4;border-radius:50%;position:absolute;top:48px;left:50%;transform:translateX(-50%);animation:spinstar 55s linear infinite;opacity:.7}
+    .magic-circle:before,.magic-circle:after{content:"✦";position:absolute;color:#b8a3ed;font-size:22px;top:15px;left:15px}.magic-circle:after{top:auto;left:auto;bottom:10px;right:5px}
+    .orb{width:215px;height:215px;position:relative;border-radius:50%;margin-top:14px;background:radial-gradient(circle at 33% 19%,#fff 0,#f8f3ff 24%,#e7deff 66%,#d9d0ff 100%);box-shadow:inset -15px -12px 27px #c7b7ee80,inset 10px 14px 32px #fff,0 25px 35px #9f8ad540,0 0 0 10px #fff8;display:grid;place-items:center;overflow:hidden}
+    .orb:after{content:"";position:absolute;border-radius:100%;width:65px;height:28px;background:#ffffff9a;top:25px;left:36px;transform:rotate(-31deg);filter:blur(2px)}
+    .orb-art{width:170px;height:155px;display:grid;place-items:center;position:relative;z-index:1;filter:drop-shadow(0 8px 7px #a798c04a);transition:transform .3s}
+    .orb-art svg{width:100%;height:100%}.orb-art .question{font-size:80px;font-weight:900;color:#c2b1e9;text-shadow:0 5px 0 white}
+    .orb-left,.orb-right{position:absolute;top:95px;width:83px;height:83px;border:5px solid white;border-radius:23px;background:#fff;display:grid;place-items:center;box-shadow:0 11px 28px #8577bb1d;overflow:hidden;z-index:2}
+    .orb-left{left:8px;transform:rotate(-11deg)}.orb-right{right:8px;transform:rotate(11deg)}.orb-left svg,.orb-right svg{height:80px;width:80px}
+    .orb-connector{position:absolute;top:143px;color:#b9abdc;font-size:23px;z-index:1}.orb-connector.left{left:105px}.orb-connector.right{right:105px}
+    .orb-foot{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);width:165px;height:23px;border-radius:50%;background:#c7b5ed60;filter:blur(7px)}
+    .spark{position:absolute;color:#c0b0ed;font-size:23px;animation:twinkle 2.2s ease-in-out infinite}.sp1{top:62px;right:57px}.sp2{bottom:75px;left:64px;font-size:18px;animation-delay:.5s}.sp3{top:42px;left:75px;font-size:15px;animation-delay:1.1s}
+    .orb.fusing{animation:shake .7s ease-in-out;box-shadow:0 0 70px #c7b3fb,inset -15px -12px 27px #c7b7ee80}
+    .orb.fusing .orb-art{animation:bounce .65s ease-in-out}
+    .slots{display:flex;align-items:center;justify-content:center;gap:13px;width:100%;margin:1px 0 17px}
+    .slot{min-width:133px;padding:10px 12px;background:#fff;border:1px solid #e7e0f8;border-radius:13px;box-shadow:0 5px 14px #978ac413;font-size:11px;font-weight:900;text-align:center;color:#7b6ab7;display:flex;justify-content:center;gap:7px;align-items:center}
+    .plus-mark{font-size:20px;font-weight:900;color:#c0b2e6}
+    .fuse-button{width:100%;max-width:330px;border:0;border-radius:15px;background:linear-gradient(115deg,#a89af0,#806bda);padding:17px 26px;color:white;font-weight:900;letter-spacing:2px;font-size:14px;box-shadow:0 11px 20px #9785de45;transition:transform .2s,filter .2s}
+    .fuse-button:hover{filter:brightness(1.05);transform:translateY(-2px)}.fuse-button:disabled{opacity:.58;cursor:not-allowed;transform:none}
+    .lab-bottom{margin-top:13px;font-size:10px;color:#aba2bd;display:flex;align-items:center;gap:6px}
+    .lab-footer{padding:15px 25px;border-top:1px solid #e7ddf8;display:flex;align-items:center;gap:7px;justify-content:center;background:#f0eafd;color:#8974bc;font-size:11px;font-weight:700}
+    .outcome .panel-pad{height:100%;display:flex;flex-direction:column}.outcome{min-height:625px}
+    .outcome-card{background:linear-gradient(145deg,#f9f6ff,#fff9fc);border-radius:20px;min-height:236px;margin-top:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:13px;position:relative;overflow:hidden}
+    .outcome-card:before{content:"";position:absolute;width:205px;height:205px;border:2px dashed #e6dcfc;border-radius:50%;top:-62px;right:-72px;opacity:.6}
+    .outcome-card .monster-feature{width:158px;height:130px;display:grid;place-items:center}.outcome-card .monster-feature svg{width:150px;height:132px;filter:drop-shadow(0 11px 6px #c8bbdd48)}
+    .outcome-card .placeholder-icon{width:106px;height:106px;border-radius:50%;border:2px dashed #d8cced;color:#c6b7e4;display:grid;place-items:center;font-weight:900;font-size:55px;margin-bottom:9px}
+    .outcome-card .result-name{font-size:17px;font-weight:900;margin-top:4px}.outcome-card .result-desc{font-size:10px;color:#a99cbd;margin:6px 0}.rarity{display:inline-block;font-weight:900;font-size:10px;border-radius:100px;padding:5px 10px;background:#ece8ff;color:#8971d4}.rarity.rare{background:#fff0d6;color:#cc9451}.rarity.base{background:#e7f8ef;color:#52a17a}
+    .stat-section{margin-top:19px}.section-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:900;margin-bottom:14px}.section-row small{font-size:10px;color:#b8aec7;font-weight:700}
+    .stat-row{display:flex;gap:8px;align-items:center;margin-bottom:13px}.stat-icon{width:23px;height:23px;display:grid;place-items:center;border-radius:7px;background:var(--soft);font-size:12px;flex-shrink:0}
+    .stat-name{width:32px;font-weight:800;color:#9690a5;font-size:10px}.stat-track{height:8px;background:#f3f0f7;border-radius:100px;overflow:hidden;flex:1}.stat-fill{height:100%;border-radius:100px;background:var(--fill);width:0;transition:width .65s}.stat-val{width:27px;text-align:right;font-size:12px;font-weight:900;color:#59536c}
+    .talent-box{border-radius:14px;background:#f9f6ff;border:1px solid #ece5ff;padding:13px;margin-top:9px;display:flex;gap:10px;align-items:center}.talent-symbol{width:38px;height:38px;display:grid;place-items:center;background:#ece4ff;border-radius:11px;font-size:18px}.talent-box strong{font-size:12px}.talent-box small{display:block;margin-top:3px;color:#aa9ebd;font-size:10px}
+    .outcome-spacer{flex:1}.save-note{margin-top:16px;text-align:center;font-size:10px;color:#afa8bc}.save-note span{color:#8d7bdd;font-weight:900}
+    .tip-row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:17px;margin-top:18px}
+    .tip-card{min-height:90px;background:white;border:1px solid var(--stroke);border-radius:20px;padding:17px 21px;box-shadow:var(--shadow);display:flex;align-items:center;gap:13px}
+    .tip-emblem{height:46px;width:46px;display:grid;place-items:center;background:#f3efff;border-radius:14px;font-size:22px;flex-shrink:0}
+    .tip-card strong{font-size:12px}.tip-card p{font-size:10px;color:#9c96ab;line-height:1.7;margin:4px 0 0}.tip-number{font-size:23px;color:#806ed0;font-weight:900;display:block;margin-top:3px}
+    .page{display:none}.page.active{display:block}
+    .atlas-top{background:linear-gradient(105deg,#eee9ff 0%,#eef3ff 55%,#f4eafe 100%);min-height:143px;border-radius:25px;padding:27px 32px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;border:1px solid #e8e0fa}
+    .atlas-top:after{content:"✧     ✦     ✧";position:absolute;right:35px;bottom:0;font-size:62px;letter-spacing:15px;color:#ffffffb5;pointer-events:none;transform:rotate(-13deg)}
+    .atlas-top .eyebrow{color:#9488c7}.atlas-top h2{font-size:24px;margin:8px 0;color:#5d518b}.atlas-top p{font-size:11px;color:#9188a8;margin:0}.atlas-progress{background:#fff;border:1px solid #e6dbfa;border-radius:17px;padding:14px 17px;min-width:205px;position:relative;z-index:1;box-shadow:0 5px 13px #8e81b61b}.atlas-progress strong{font-size:22px;color:#7765cd}.atlas-progress small{font-size:11px;font-weight:900;color:#8d84ae}.progress-track{height:8px;background:#efeaf9;border-radius:10px;overflow:hidden;margin-top:10px}.progress-fill{background:linear-gradient(90deg,#a39be9,#7568d2);height:100%;width:0;border-radius:100px;transition:width .35s}
+    .atlas-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:19px;margin-top:21px;align-items:start}
+    .atlas-grid-panel{background:white;border-radius:24px;border:1px solid var(--stroke);padding:21px;box-shadow:var(--shadow)}
+    .atlas-filters{display:flex;align-items:center;justify-content:space-between;margin-bottom:19px;gap:8px}
+    .filters{display:flex;gap:8px}.filter-btn{border:1px solid transparent;background:#f7f5fb;border-radius:10px;padding:9px 13px;color:#9890a9;font-size:11px;font-weight:900}.filter-btn.active{background:#efeaff;border-color:#ded6ff;color:#7f6aca}
+    .atlas-count{font-size:11px;color:#aaa5b7;font-weight:800}
+    .atlas-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}
+    .atlas-card{border:1.5px solid #eeeaf4;background:#fff;border-radius:18px;padding:13px 8px 11px;text-align:center;min-height:172px;transition:.18s;overflow:hidden;position:relative}
+    .atlas-card:hover{transform:translateY(-3px);box-shadow:0 8px 16px #7d72a21c}.atlas-card.active{border-color:#ad9ef0;background:#faf7ff;box-shadow:0 0 0 3px #a792df1a}
+    .atlas-card .monster-pic{width:100%;height:104px;border-radius:14px;background:var(--tint);display:grid;place-items:center;overflow:hidden;position:relative}.atlas-card .monster-pic svg{width:118px;height:105px}
+    .atlas-card .monster-pic.locked{background:#f3f1f8}.atlas-card .monster-pic.locked svg{filter:grayscale(1) brightness(0);opacity:.12;transform:scale(.9)}
+    .atlas-card .monster-pic.locked:after{content:'?';position:absolute;color:#c9c3d5;font-size:42px;font-weight:900}
+    .atlas-card strong{font-size:11px;margin:10px 0 7px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .atlas-card small{display:block;font-size:9px;color:#aca5b7}.atlas-card .dot{font-size:8px;display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--dot);margin-right:4px;vertical-align:middle}
+    .detail{background:white;border:1px solid var(--stroke);box-shadow:var(--shadow);border-radius:24px;padding:21px;position:sticky;top:16px}
+    .detail-art{border-radius:20px;background:var(--detail-bg,#f7f3ff);height:206px;display:grid;place-items:center;margin:15px 0}.detail-art svg{width:205px;height:180px}.detail-art.locked svg{filter:grayscale(1) brightness(0);opacity:.11}.detail-name{font-size:20px;font-weight:900;margin:14px 0 8px}.detail-meta{display:flex;align-items:center;gap:7px;margin-bottom:15px}.detail-copy{font-size:11px;line-height:1.8;color:#9d96ac}.detail-divider{height:1px;background:#f0ecf7;margin:17px 0}
+    .detail-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.detail-stat{background:#f9f7fc;border-radius:12px;padding:10px 11px}.detail-stat small{display:block;font-size:10px;color:#9b94a8}.detail-stat strong{font-size:19px;color:#655b7c;display:block;margin-top:3px}
+    .detail-recipe{border:1px dashed #e2d9f6;background:#fbfaff;border-radius:14px;padding:12px;margin-top:12px;color:#8e80b4;font-size:11px;line-height:1.7}
+    .toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,25px);background:#554c81;color:white;border-radius:14px;padding:13px 22px;font-size:12px;font-weight:900;box-shadow:0 9px 27px #4940724d;z-index:50;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .reset-button{margin-top:15px;border:1px solid #e7dff3;border-radius:11px;padding:10px 13px;background:#fff;font-size:11px;font-weight:900;color:#998aad;width:100%}.reset-button:hover{background:#fff6f7;color:#d78395}
+    .footer{margin-top:24px;text-align:center;font-size:10px;color:#b6b0c3;letter-spacing:.4px}
+    @keyframes twinkle{50%{transform:scale(1.4);opacity:.35}}@keyframes spinstar{to{transform:translateX(-50%) rotate(360deg)}}@keyframes shake{0%,100%{transform:translateX(0)}18%,55%{transform:translateX(-5px)}35%,75%{transform:translateX(5px)}}@keyframes bounce{50%{transform:scale(1.2) rotate(-9deg)}}
+    @media(min-width:1450px){.board{grid-template-columns:295px minmax(410px,1fr) 335px}.lab{min-height:660px}.outcome{min-height:660px}.fusion-station{height:337px}}
+    @media(max-width:1210px){.app{padding:24px 22px 35px}.board{grid-template-columns:250px minmax(370px,1fr) 275px;gap:12px}.panel-pad{padding:18px}.orb-left{left:0}.orb-right{right:0}.topbar{gap:8px}.nav-btn{padding:10px 14px;min-width:auto}.tip-row{gap:12px}.atlas-grid{gap:9px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+ <div class="app">
+  <header class="topbar">
+   <div class="brand" aria-label="幻獸融合研究所">
+    <div class="brand-icon">✦</div><div><strong>幻獸融合研究所</strong><small>MONSTER FUSION LAB</small></div>
+   </div>
+   <nav class="nav" aria-label="主要畫面">
+    <button class="nav-btn active" id="nav-lab" onclick="showPage('lab')"><span>⚗</span> 融合研究室</button>
+    <button class="nav-btn" id="nav-atlas" onclick="showPage('atlas')"><span>▦</span> 幻獸圖鑑</button>
+   </nav>
+   <div class="profile"><div class="avatar">🧑🏻‍🔬</div><div><span class="hi">初級研究員</span><small>歡迎回到研究所！</small></div></div>
+  </header>
+
+  <main>
+   <section class="page active" id="page-lab">
+    <div class="heading">
+     <div><div class="eyebrow">WELCOME TO THE LAB · 01</div><h1>今天要創造什麼<em>奇蹟</em>？ ✨</h1><p>挑選兩隻可愛幻獸，讓奇妙的元素碰撞，誕生獨一無二的新夥伴！</p></div>
+     <div class="heading-right"><div class="tiny-pill"><span class="star">✦</span> 已發現 <b class="unlocked-count">5</b> / 18</div><div class="tiny-pill">🧪 實驗 <b class="fusions-count">0</b> 次</div></div>
+    </div>
+    <div class="board">
+     <aside class="panel"><div class="panel-pad"><div class="panel-head"><h2>✿ 選擇融合材料</h2><span class="mini-badge">01 / 選擇</span></div><p class="subtext">從下方挑選兩隻不同的幻獸吧！</p><div class="source-list" id="source-list"></div><div class="select-help"><div class="help-title">✧ 研究員小提醒</div><p>融合不會消耗原本的幻獸，放心大膽嘗試！不同組合會誕生不同的新夥伴。</p></div></div></aside>
+     <section class="panel lab"><div class="lab-inner"><div class="lab-heading"><span class="mini-badge">✧ MAGICAL FUSION ✧</span><h2>元素融合裝置</h2><p>準備好見證奇妙的誕生了嗎？</p></div>
+       <div class="fusion-station"><div class="magic-circle"></div><span class="spark sp1">✦</span><span class="spark sp2">✧</span><span class="spark sp3">✦</span><div class="orb-left" id="orb-left"></div><span class="orb-connector left">✧</span><div class="orb" id="orb"><div class="orb-art" id="orb-art"><span class="question">✦</span></div></div><span class="orb-connector right">✧</span><div class="orb-right" id="orb-right"></div><div class="orb-foot"></div></div>
+       <div class="slots"><div class="slot" id="slot-a">✧ 第一隻幻獸</div><span class="plus-mark">+</span><div class="slot" id="slot-b">✧ 第二隻幻獸</div></div><button class="fuse-button" id="fuse-button" onclick="startFusion()">✦ 開始奇幻融合 ✦</button><div class="lab-bottom">✧ 每一次融合，都可能有驚喜出現</div>
+     </div><div class="lab-footer">✦　有些特別的組合，藏著只有幸運研究員才能遇見的神秘幻獸！　✦</div></section>
+     <aside class="panel outcome"><div class="panel-pad"><div class="panel-head"><h2>✧ 最新融合成果</h2><span class="mini-badge">02 / 發現</span></div><p class="subtext">看看這次誕生了哪位可愛夥伴！</p><div class="outcome-card" id="outcome-card"></div><div class="stat-section"><div class="section-row"><span>✦ 幻獸能力值</span><small>MAX 100</small></div><div id="stat-list"></div><div class="talent-box" id="talent-box"></div></div><div class="outcome-spacer"></div><div class="save-note"><span>✦</span> 融合成果將自動記錄在幻獸圖鑑</div></div></aside>
+    </div>
+    <div class="tip-row"><div class="tip-card"><div class="tip-emblem">📖</div><div><strong>研究小日記</strong><p id="diary-message">研究的第一步，就是保持好奇心。試試不同的融合配方吧！</p></div></div><div class="tip-card"><div class="tip-emblem">🌟</div><div><strong>圖鑑收集進度</strong><span class="tip-number" id="footer-progress">28%</span></div></div><div class="tip-card"><div class="tip-emblem">🎀</div><div><strong>已發現變異幻獸</strong><span class="tip-number" id="rare-count">0 / 3</span></div></div></div>
+   </section>
+
+   <section class="page" id="page-atlas"><div class="heading"><div><div class="eyebrow">THE WONDERFUL CREATURES · 02</div><h1>奇幻幻獸<em>圖鑑</em> 📖</h1><p>每一個小小的發現，都是研究旅途裡值得珍藏的回憶。</p></div><div class="heading-right"><div class="tiny-pill">🌟 研究成果 <b class="unlocked-count">5</b> / 18</div></div></div>
+    <div class="atlas-top"><div><div class="eyebrow">COLLECTION PROGRESS</div><h2>收集屬於你的奇幻夥伴 ✦</h2><p>探索未知配方、發現稀有變異，讓這本圖鑑慢慢變得繽紛！</p></div><div class="atlas-progress"><div><strong id="atlas-count">5</strong><small> / 18 種已發現</small></div><div class="progress-track"><div class="progress-fill" id="atlas-progress-fill"></div></div></div></div>
+    <div class="atlas-layout"><div class="atlas-grid-panel"><div class="atlas-filters"><div class="filters"><button class="filter-btn active" data-filter="all" onclick="setFilter('all')">全部幻獸</button><button class="filter-btn" data-filter="base" onclick="setFilter('base')">基礎幻獸</button><button class="filter-btn" data-filter="common" onclick="setFilter('common')">普通融合</button><button class="filter-btn" data-filter="rare" onclick="setFilter('rare')">稀有變異</button></div><span class="atlas-count" id="atlas-filter-count">共 18 種幻獸</span></div><div class="atlas-grid" id="atlas-grid"></div></div><aside class="detail" id="atlas-detail"></aside></div>
+   </section>
+  </main><footer class="footer">© MONSTER FUSION LAB · 可愛幻獸 × 無限好奇心 · 單檔 HTML 互動原型</footer>
+ </div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+ <script>
+ 'use strict';
+ const MONSTERS=[
+  {id:'slime',name:'水滴史萊姆',type:'水',kind:'base',shape:'slime',color:'#82d6e2',dark:'#4caebe',light:'#c7f6fa',tint:'#e9f9ff',acc:'drop',stats:[70,35,65,40],note:'軟綿綿、水噗噗，碰一下就會彈起來。'},
+  {id:'fire',name:'火焰蜥蜴',type:'火',kind:'base',shape:'lizard',color:'#ffb18b',dark:'#ec8176',light:'#ffdeab',tint:'#fff2ec',acc:'flame',stats:[55,75,40,60],note:'尾巴的小火苗，總會隨心情跳舞。'},
+  {id:'ice',name:'霜尾狐',type:'冰',kind:'base',shape:'fox',color:'#b6d2fa',dark:'#809edc',light:'#f2faff',tint:'#edf5ff',acc:'snow',stats:[50,55,45,80],note:'走過的地方，會留下小小的雪花。'},
+  {id:'thunder',name:'雷羽鳥',type:'雷',kind:'base',shape:'bird',color:'#fee392',dark:'#eeb661',light:'#fff4ce',tint:'#fff9e5',acc:'bolt',stats:[45,70,35,90],note:'興奮時頭頂會有噼哩啪啦的電光。'},
+  {id:'mushroom',name:'蘑菇精靈',type:'自然',kind:'base',shape:'mushroom',color:'#c5dd9b',dark:'#81ad79',light:'#fff3d0',tint:'#f2fae9',acc:'leaf',stats:[80,40,75,30],note:'最喜歡雨後森林裡清新的泥土味。'},
+  {id:'lava',name:'熔岩史萊姆',type:'水・火',kind:'common',shape:'slime',color:'#ffa07f',dark:'#ec7771',light:'#ffe2ab',tint:'#fff0e9',acc:'flame',note:'身體暖呼呼，像剛出爐的果凍。'},
+  {id:'dragonpudding',name:'赤焰龍布丁',type:'火・水',kind:'rare',shape:'lizard',color:'#f59b85',dark:'#d66873',light:'#ffe8a4',tint:'#fff0eb',acc:'crown',note:'傳說中藏在火焰深處的布丁小龍。'},
+  {id:'icejelly',name:'冰晶布丁',type:'水・冰',kind:'common',shape:'slime',color:'#b2d6ff',dark:'#8bafd8',light:'#f2fdff',tint:'#eef8ff',acc:'crystal',note:'涼涼軟軟的，摸起來像棉花雪。'},
+  {id:'sparkjelly',name:'閃電果凍',type:'水・雷',kind:'common',shape:'slime',color:'#ffe29a',dark:'#dcb35d',light:'#fff9d4',tint:'#fff9e9',acc:'bolt',note:'開心時會像閃光燈一樣亮一下。'},
+  {id:'forestbubble',name:'森林泡泡菇',type:'水・自然',kind:'common',shape:'mushroom',color:'#a4dac0',dark:'#68b0a0',light:'#ebfff1',tint:'#ecfaf3',acc:'bubble',note:'總會吹出帶著青草香的泡泡。'},
+  {id:'steam',name:'蒸氣雙尾獸',type:'火・冰',kind:'common',shape:'fox',color:'#e6bfdb',dark:'#ae9bc7',light:'#fff0fa',tint:'#faf0fa',acc:'steam',note:'冷熱交織，兩條尾巴冒著薄霧。'},
+  {id:'thunderdrake',name:'雷炎幼龍',type:'火・雷',kind:'common',shape:'lizard',color:'#f8c478',dark:'#db8b72',light:'#fff0b4',tint:'#fff6eb',acc:'bolt',note:'打噴嚏時可能產生小小的雷電。'},
+  {id:'stormdragon',name:'天雷炎龍',type:'火・雷',kind:'rare',shape:'lizard',color:'#cbaaff',dark:'#9479d7',light:'#ffe8b4',tint:'#f4efff',acc:'crown',note:'披著紫色雷光的珍稀小龍。'},
+  {id:'flamecap',name:'烈焰菇菇',type:'火・自然',kind:'common',shape:'mushroom',color:'#ffb59b',dark:'#d78272',light:'#ffe4c2',tint:'#fff1e9',acc:'flame',note:'頭頂像小暖爐，冬天特別受歡迎。'},
+  {id:'aurorafox',name:'極光雷狐',type:'冰・雷',kind:'common',shape:'fox',color:'#bdc9ff',dark:'#8b9ce3',light:'#eff3ff',tint:'#f2f2ff',acc:'bolt',note:'雪夜裡奔跑，尾巴會拖出極光。'},
+  {id:'snowfox',name:'霜晶菇狐',type:'冰・自然',kind:'common',shape:'fox',color:'#b6ded1',dark:'#88b6bd',light:'#eefff2',tint:'#f1fbf7',acc:'leaf',note:'耳朵上長出像冰晶一樣的小菇。'},
+  {id:'snowlegend',name:'極光雪菇獸',type:'冰・自然',kind:'rare',shape:'mushroom',color:'#b5cafa',dark:'#9399e0',light:'#f0e4ff',tint:'#f1efff',acc:'crown',note:'只有非常幸運的研究員才能遇見牠。'},
+  {id:'voltshroom',name:'電光蘑菇',type:'雷・自然',kind:'common',shape:'mushroom',color:'#f8d98e',dark:'#d7ae63',light:'#fff5ce',tint:'#fff8e5',acc:'bolt',note:'夜裡像一盞會眨眼睛的小燈。'}
+ ];
+ const M=Object.fromEntries(MONSTERS.map(x=>[x.id,x]));
+ const RECIPES={
+  'fire|slime':['lava','dragonpudding'],'ice|slime':['icejelly'],'slime|thunder':['sparkjelly'],'mushroom|slime':['forestbubble'],
+  'fire|ice':['steam'],'fire|thunder':['thunderdrake','stormdragon'],'fire|mushroom':['flamecap'],'ice|thunder':['aurorafox'],
+  'ice|mushroom':['snowfox','snowlegend'],'mushroom|thunder':['voltshroom']
+ };
+ const TALENTS=[{name:'強壯',icon:'💪',index:1,desc:'攻擊 ATK +8'},{name:'堅韌',icon:'🛡️',index:2,desc:'防禦 DEF +8'},{name:'迅捷',icon:'💨',index:3,desc:'速度 SPD +8'},{name:'活力',icon:'💗',index:0,desc:'生命 HP +8'}];
+ const STORAGE='monster-fusion-lab-v1';
+ let state=loadState(),selected=['slime','fire'],currentResult=null,atlasFilter='all',detailId='slime',fusing=false,serial=0,toastTimer=null;
+ function fresh(){return {unlocked:['slime','fire','ice','thunder','mushroom'],best:{},counts:{},fusions:0,history:[]}}
+ function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE));if(!s||!Array.isArray(s.unlocked)||!s.best||!s.counts)return fresh(); const init=fresh(); const unlocked=[...new Set([...init.unlocked,...s.unlocked.filter(x=>M[x])])]; const best={};for(const [k,b] of Object.entries(s.best)){if(M[k]&&M[k].kind!=='base'&&b&&Array.isArray(b.stats)&&b.stats.length===4&&b.stats.every(n=>Number.isInteger(n)&&n>=1&&n<=100)&&TALENTS.some(t=>t.name===b.talent))best[k]={stats:b.stats,talent:b.talent,total:b.stats.reduce((a,v)=>a+v,0)};}const counts={};for(const [k,n] of Object.entries(s.counts))if(M[k]&&Number.isInteger(n)&&n>=0)counts[k]=n;return {unlocked,best,counts,fusions:Number.isSafeInteger(s.fusions)&&s.fusions>=0?s.fusions:0,history:[]}}catch{return fresh()}}
+ function save(){try{localStorage.setItem(STORAGE,JSON.stringify({...state,history:[]}))}catch{notify('瀏覽器無法保存資料，請檢查儲存設定')}}
+ const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+ function monsterArt(id){const x=M[id];if(!x)return '';const u=++serial,fill=`g${u}`,glow=`h${u}`;
+  const head=`<defs><linearGradient id="${fill}" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="${x.light}"/><stop offset=".49" stop-color="${x.color}"/><stop offset="1" stop-color="${x.dark}"/></linearGradient><radialGradient id="${glow}"><stop offset="0" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>`;
+  const c=`url(#${fill})`;let shape='',ey=107;
+  if(x.shape==='slime'){ey=108;shape=`<path d="M53 143C31 122 46 93 66 77C80 65 90 51 110 47C131 51 140 65 154 77C180 99 184 123 162 144C140 165 76 165 53 143Z" fill="${c}" stroke="${x.dark}" stroke-width="3"/><ellipse cx="86" cy="73" rx="28" ry="13" fill="#fff" opacity=".31" transform="rotate(-33 86 73)"/><ellipse cx="153" cy="138" rx="16" ry="7" fill="#fff" opacity=".13"/>`}
+  if(x.shape==='lizard'){ey=103;shape=`<path d="M149 129Q193 143 187 98Q201 118 198 144Q185 171 145 151" fill="${c}" stroke="${x.dark}" stroke-width="3"/><path d="M83 64L84 42L106 61L127 36L137 68" fill="${x.dark}" stroke="${x.dark}" stroke-width="3" stroke-linejoin="round"/><ellipse cx="81" cy="150" rx="18" ry="10" fill="${x.dark}"/><ellipse cx="142" cy="150" rx="18" ry="10" fill="${x.dark}"/><path d="M52 109Q54 68 87 63Q133 47 162 88Q180 117 162 143Q142 161 101 158Q52 154 52 109Z" fill="${c}" stroke="${x.dark}" stroke-width="3"/><ellipse cx="115" cy="129" rx="32" ry="24" fill="${x.light}" opacity=".65"/>`}
+  if(x.shape==='fox'){ey=104;shape=`<path d="M153 136Q198 119 183 67Q209 81 207 118Q196 157 151 154" fill="${c}" stroke="${x.dark}" stroke-width="3"/><path d="M58 85L61 33Q62 27 69 34L92 57L123 55L149 31Q153 28 157 38L162 88" fill="${c}" stroke="${x.dark}" stroke-width="3"/><path d="M67 47L76 70L92 62Z M143 60L153 47L151 78Z" fill="#fff1fa" opacity=".8"/><ellipse cx="108" cy="110" rx="62" ry="48" fill="${c}" stroke="${x.dark}" stroke-width="3"/><path d="M64 115Q83 130 110 135Q141 130 153 111Q142 152 110 153Q78 151 64 115" fill="#fff" opacity=".8"/><ellipse cx="84" cy="149" rx="14" ry="8" fill="${x.dark}"/><ellipse cx="138" cy="149" rx="14" ry="8" fill="${x.dark}"/>`}
+  if(x.shape==='bird'){ey=105;shape=`<path d="M86 70L89 42L109 63L117 36L131 69" fill="${c}" stroke="${x.dark}" stroke-width="3"/><ellipse cx="109" cy="115" rx="59" ry="49" fill="${c}" stroke="${x.dark}" stroke-width="3"/><path d="M56 110Q21 103 36 133Q46 147 71 142" fill="${c}" stroke="${x.dark}" stroke-width="3"/><path d="M161 107Q196 100 183 132Q171 148 152 144" fill="${c}" stroke="${x.dark}" stroke-width="3"/><ellipse cx="111" cy="135" rx="31" ry="24" fill="${x.light}" opacity=".65"/><path d="M82 160V173M136 160V173" stroke="${x.dark}" stroke-width="5" stroke-linecap="round"/><path d="M107 116L121 122L107 128Z" fill="#ed9b63"/>`}
+  if(x.shape==='mushroom'){ey=119;shape=`<ellipse cx="110" cy="136" rx="43" ry="31" fill="${c}" stroke="${x.dark}" stroke-width="3"/><path d="M38 104Q42 51 110 49Q181 50 184 104Q166 123 110 117Q55 123 38 104Z" fill="${c}" stroke="${x.dark}" stroke-width="3"/><ellipse cx="81" cy="79" rx="13" ry="8" fill="${x.light}" opacity=".85" transform="rotate(-20 81 79)"/><ellipse cx="137" cy="85" rx="18" ry="10" fill="${x.light}" opacity=".85" transform="rotate(14 137 85)"/><ellipse cx="111" cy="60" rx="8" ry="6" fill="${x.light}" opacity=".7"/>`}
+  const accessories={
+   flame:`<path d="M153 58Q145 39 162 20Q155 43 173 41Q183 55 167 68Z" fill="#ffb75c" stroke="#ee8e5d" stroke-width="2"/>`,
+   drop:`<path d="M169 39Q169 30 177 20Q193 38 181 47Q170 51 169 39Z" fill="#9bdbff"/>`,
+   snow:`<g stroke="#fff" stroke-width="4" stroke-linecap="round"><path d="M177 45v27m-13-14h26m-22-9l18 18m0-18l-18 18"/></g>`,
+   bolt:`<path d="M173 23L158 47L169 47L158 72L186 41L173 42Z" fill="#ffdd77" stroke="#e4b458" stroke-width="2"/>`,
+   leaf:`<path d="M175 36Q197 37 183 55Q168 62 169 49Q171 42 175 36Z" fill="#8ed3a5" stroke="#6eb98d" stroke-width="2"/>`,
+   bubble:`<circle cx="177" cy="40" r="13" fill="#fff" fill-opacity=".3" stroke="#8bdad7" stroke-width="3"/><circle cx="191" cy="24" r="6" fill="#fff" fill-opacity=".5" stroke="#8bdad7" stroke-width="2"/>`,
+   crystal:`<path d="M169 31L181 21L193 37L182 61L166 48Z" fill="#dffaff" stroke="#8ebbe8" stroke-width="3"/>`,
+   steam:`<path d="M164 59Q144 44 160 31Q170 25 166 14" fill="none" stroke="#e8d9ff" stroke-width="6" stroke-linecap="round"/><path d="M183 67Q164 52 180 38" fill="none" stroke="#ddd4ec" stroke-width="5" stroke-linecap="round"/>`,
+   crown:`<path d="M79 56L78 29L96 41L111 20L126 41L145 29L143 56Z" fill="#ffe497" stroke="#e6b86e" stroke-width="3" stroke-linejoin="round"/><circle cx="111" cy="39" r="5" fill="#f7a5aa"/>`
+  };
+  const eyes=`<g fill="#4d455e"><ellipse cx="${87}" cy="${ey}" rx="5.7" ry="7.5"/><ellipse cx="${132}" cy="${ey}" rx="5.7" ry="7.5"/></g><g fill="#fff"><circle cx="85" cy="${ey-3}" r="2"/><circle cx="130" cy="${ey-3}" r="2"/></g><ellipse cx="72" cy="${ey+10}" rx="10" ry="6" fill="#f68da7" opacity=".52"/><ellipse cx="147" cy="${ey+10}" rx="10" ry="6" fill="#f68da7" opacity=".52"/><path d="M103 ${ey+13}Q110 ${ey+22} 117 ${ey+13}" fill="none" stroke="#64546d" stroke-width="3" stroke-linecap="round"/>`;
+  return `<svg viewBox="0 0 220 190" role="img" aria-label="${x.name}" xmlns="http://www.w3.org/2000/svg">${head}<ellipse cx="110" cy="170" rx="54" ry="9" fill="#ad9ec1" opacity=".16"/>${shape}${accessories[x.acc]||''}${eyes}<circle cx="50" cy="53" r="4" fill="#fff" opacity=".6"/><path d="M40 39v10m-5-5h10" stroke="#fff" stroke-width="3" opacity=".6" stroke-linecap="round"/></svg>`
+ }
+ function kindLabel(kind){return kind==='base'?'基礎幻獸':kind==='rare'?'✦ 稀有變異':'普通融合'}
+ function selectedElement(id){return M[id].name}
+ function updateStatsUI(stats){const metas=[['💗','HP','#ffeef2','#ee9ab2'],['⚔️','ATK','#fff3e8','#e6a978'],['🛡️','DEF','#ecf2ff','#9aafea'],['💨','SPD','#e9f8f3','#8bceb0']];document.getElementById('stat-list').innerHTML=metas.map((s,i)=>`<div class="stat-row"><span class="stat-icon" style="--soft:${s[2]}">${s[0]}</span><span class="stat-name">${s[1]}</span><span class="stat-track"><span class="stat-fill" style="--fill:${s[3]};width:${stats?stats[i]:0}%"></span></span><span class="stat-val">${stats?stats[i]:'--'}</span></div>`).join('')}
+ function renderSources(){document.getElementById('source-list').innerHTML=MONSTERS.filter(x=>x.kind==='base').map(x=>`<button class="source-btn ${selected.includes(x.id)?'selected':''}" onclick="choose('${x.id}')" aria-pressed="${selected.includes(x.id)}"><span class="source-art" style="--c:${x.tint}">${monsterArt(x.id)}</span><span class="source-meta"><strong>${x.name}</strong><small>${x.type}元素 · 基礎幻獸</small></span><span class="source-check">✓</span></button>`).join('');const[a,b]=selected;document.getElementById('slot-a').textContent=a?'✦ '+selectedElement(a):'✧ 第一隻幻獸';document.getElementById('slot-b').textContent=b?'✦ '+selectedElement(b):'✧ 第二隻幻獸';document.getElementById('orb-left').innerHTML=a?monsterArt(a):'<span>?</span>';document.getElementById('orb-right').innerHTML=b?monsterArt(b):'<span>?</span>';document.getElementById('fuse-button').disabled=selected.length!==2||fusing}
+ function choose(id){if(fusing)return;if(selected.includes(id))selected=selected.filter(v=>v!==id);else if(selected.length<2)selected.push(id);else selected=[selected[1],id];renderSources()}
+ function renderOutcome(){const card=document.getElementById('outcome-card'),talent=document.getElementById('talent-box');if(!currentResult){card.innerHTML=`<div class="placeholder-icon">?</div><div class="result-name">等待奇蹟發生...</div><div class="result-desc">按下融合，揭開未知小夥伴的真面目！</div><span class="rarity">尚未融合</span>`;updateStatsUI(null);talent.innerHTML='<span class="talent-symbol">✧</span><span><strong>等待隨機天賦</strong><small>每個新夥伴都有自己的小小特長</small></span>';return}const r=currentResult,x=M[r.id],t=TALENTS.find(t=>t.name===r.talent);card.innerHTML=`<div class="monster-feature">${monsterArt(x.id)}</div><div class="result-name">${x.name}</div><div class="result-desc">${x.type}元素 · 能力總和 ${r.total}</div><span class="rarity ${x.kind==='rare'?'rare':''}">${kindLabel(x.kind)}</span>`;updateStatsUI(r.stats);talent.innerHTML=`<span class="talent-symbol">${t.icon}</span><span><strong>隨機天賦：${t.name}</strong><small>${t.desc} · 已計入能力值</small></span>`}
+ function notify(str){const t=document.getElementById('toast');t.textContent=str;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000)}
+ function fusionResult(){const key=[...selected].sort().join('|'),r=RECIPES[key];if(!r)return null;const id=r.length>1&&Math.random()<.10?r[1]:r[0];const monster=M[id],parents=selected.map(k=>M[k]),talent=TALENTS[rand(0,3)];const stats=parents[0].stats.map((n,i)=>Math.max(1,Math.min(100,Math.floor((n+parents[1].stats[i])/2)+(monster.kind==='rare'?20:5)+rand(-6,6)+(talent.index===i?8:0))));return {id,stats,talent:talent.name,total:stats.reduce((a,n)=>a+n,0)}}
+ function startFusion(){if(fusing||selected.length!==2)return;fusing=true;renderSources();const orb=document.getElementById('orb'),art=document.getElementById('orb-art');orb.classList.add('fusing');art.innerHTML='<span class="question">✦</span>';setTimeout(()=>{const r=fusionResult();currentResult=r;if(!r){fusing=false;renderSources();return}const isNew=!state.unlocked.includes(r.id),old=state.best[r.id],record=!old||r.total>old.total;state.fusions++;state.counts[r.id]=(state.counts[r.id]||0)+1;if(isNew)state.unlocked.push(r.id);if(record)state.best[r.id]={stats:r.stats,talent:r.talent,total:r.total};state.history.unshift(r.id);state.history=state.history.slice(0,10);save();fusing=false;orb.classList.remove('fusing');art.innerHTML=monsterArt(r.id);renderSources();renderOutcome();renderCounters();document.getElementById('diary-message').textContent=isNew?`首次發現「${M[r.id].name}」！新的研究紀錄已收進圖鑑。`:record?`「${M[r.id].name}」刷新了能力紀錄！繼續試試更多組合。`:`再次遇見「${M[r.id].name}」，每次融合都是獨特的相遇。`;notify(isNew?'✨ 發現新幻獸！已加入圖鑑':M[r.id].kind==='rare'?'🌟 稀有變異誕生！':record?'🏅 最佳能力紀錄更新！':'✦ 融合成功！')},780)}
+ function renderCounters(){document.querySelectorAll('.unlocked-count').forEach(x=>x.textContent=state.unlocked.length);document.querySelectorAll('.fusions-count').forEach(x=>x.textContent=state.fusions);document.getElementById('footer-progress').textContent=Math.round(state.unlocked.length/18*100)+'%';document.getElementById('rare-count').textContent=state.unlocked.filter(k=>M[k]?.kind==='rare').length+' / 3';document.getElementById('atlas-count').textContent=state.unlocked.length;document.getElementById('atlas-progress-fill').style.width=(state.unlocked.length/18*100)+'%'}
+ function showPage(page){for(const key of ['lab','atlas']){document.getElementById('page-'+key).classList.toggle('active',page===key);document.getElementById('nav-'+key).classList.toggle('active',page===key)}if(page==='atlas')renderAtlas();window.scrollTo({top:0,behavior:'smooth'})}
+ function setFilter(v){atlasFilter=v;renderAtlas()}
+ function selectDetail(id){detailId=id;renderAtlas()}
+ function renderAtlas(){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.filter===atlasFilter));const list=MONSTERS.filter(x=>atlasFilter==='all'||x.kind===atlasFilter);document.getElementById('atlas-filter-count').textContent=`共 ${list.length} 種幻獸`;document.getElementById('atlas-grid').innerHTML=list.map(x=>{const unlocked=state.unlocked.includes(x.id);return `<button class="atlas-card ${detailId===x.id?'active':''}" onclick="selectDetail('${x.id}')"><span class="monster-pic ${unlocked?'':'locked'}" style="--tint:${x.tint}">${monsterArt(x.id)}</span><strong>${unlocked?x.name:'??? 未發現'}</strong><small><span class="dot" style="--dot:${x.kind==='rare'?'#e9b86b':x.kind==='base'?'#82cba4':'#aaa0eb'}"></span>${unlocked?kindLabel(x.kind):'等待探索'}</small></button>`}).join('');renderDetail()}
+ function recipeText(id){if(M[id].kind==='base')return '初始研究夥伴 · 無須融合即可擁有';for(const [key,values] of Object.entries(RECIPES)){if(values.includes(id)){const [a,b]=key.split('|');return `${M[a].name} + ${M[b].name}`}}return '未知配方'}
+ function renderDetail(){const x=M[detailId],unlocked=state.unlocked.includes(x.id),b=state.best[x.id],v=x.kind==='base'?x.stats:b?.stats,total=v?v.reduce((a,n)=>a+n,0):null;document.getElementById('atlas-detail').innerHTML=`<div class="panel-head"><h2>✧ 幻獸詳細資料</h2><span class="mini-badge">圖鑑 No.${String(MONSTERS.indexOf(x)+1).padStart(2,'0')}</span></div><div class="detail-art ${unlocked?'':'locked'}" style="--detail-bg:${unlocked?x.tint:'#f5f3f9'}">${monsterArt(x.id)}</div><div class="detail-name">${unlocked?x.name:'??? 神秘幻獸'}</div><div class="detail-meta"><span class="rarity ${unlocked?(x.kind==='rare'?'rare':x.kind==='base'?'base':''):''}">${unlocked?kindLabel(x.kind):'尚未發現'}</span>${unlocked?`<span style="font-size:10px;color:#a199af">${x.type}元素</span>`:''}</div><div class="detail-copy">${unlocked?x.note:'神秘的幻獸還在等待你的發現。多嘗試不同的組合，或許會有意想不到的驚喜！'}</div><div class="detail-divider"></div><div class="section-row">✧ 最佳個體能力 <small>${total!==null?'總和 '+total:'尚無紀錄'}</small></div><div class="detail-stats">${['HP','ATK','DEF','SPD'].map((n,i)=>`<div class="detail-stat"><small>${n}</small><strong>${v?v[i]:'--'}</strong></div>`).join('')}</div><div class="detail-recipe"><strong>🔎 融合來源</strong><br>${unlocked?recipeText(x.id):'尚未解鎖，配方保密中。'}${unlocked&&x.kind!=='base'?`<br>最佳個體天賦：${b?b.talent:'—'}<br>累計發現：${state.counts[x.id]||0} 次`:''}</div><button class="reset-button" onclick="resetGame()">↻　清除紀錄並重新開始</button>`}
+ function resetGame(){if(!confirm('確定要重置全部融合紀錄與幻獸圖鑑嗎？此操作無法復原。'))return;state=fresh();currentResult=null;selected=['slime','fire'];detailId='slime';save();renderSources();renderOutcome();renderCounters();renderAtlas();document.getElementById('orb-art').innerHTML='<span class="question">✦</span>';document.getElementById('diary-message').textContent='研究的第一步，就是保持好奇心。試試不同的融合配方吧！';notify('研究所已回到最初的模樣！')}
+ renderSources();renderOutcome();renderCounters();renderAtlas();
+ </script>
+</body>
+</html>
